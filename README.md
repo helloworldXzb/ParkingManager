@@ -1,3 +1,3 @@
 # ParkingManager
 QT+MYSQL的停车管理系统
-完整文件在master分支
+master分支备份原始版本
