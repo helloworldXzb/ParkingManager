@@ -20,7 +20,20 @@
 #include <qdatetime.h>
 #include <QPushButton>
 #include <parkingsettings.h>
-
+#include <QDebug>
+//#include <opencv2/opencv.hpp>
+#include <QMainWindow>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QFile>
+#include <QByteArray>
+#include <QUrlQuery>
+#include <functional>
+// functional用于回调函数的标准库支持
 namespace Ui {
 class parkingwindow;
 }
@@ -34,7 +47,7 @@ public:
     ~parkingwindow();
     void setline(int, int, int);
     void print(QString parkingstr[], int parkingnum[], QDateTime parkingtim[][2], int len);
-
+    QString encodeToBase64(const QString &filePath); // 将图片转换为 Base64
 
  //在 parkingwindow.h 中声明 finishOrder 信号,通过发送参数完结订单
 signals:
@@ -42,9 +55,18 @@ signals:
     void showParkSettings(); // 用于请求显示 parkset 界面
 private slots:
     void on_pushButton_clicked();
+    void on_scanButton_clicked();
+
 private:
     Ui::parkingwindow *ui;
     QGridLayout *pLayout;
+    // 功能函数
+    void getAccessToken(std::function<void(const QString &)> callback); // 获取 Access Token
+    void recognizeLicensePlate(const QString &imageBase64, const QString &accessToken); // 调用车牌识别接口
+
+    // 替换为你的百度云 API Key 和 Secret Key
+    const QString CLIENT_ID = "KiFHYP52lFCK34hGfFnqa84s";
+    const QString CLIENT_SECRET = "NU8m5Wwpe5oxmaUir5GHrmbPBCUcChwA";
 
 };
 

@@ -66,3 +66,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     image.qrc
+
+QT += network
+QT += core gui widgets network
+
+# win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../opencv/opencv/MinGWbuild/install/x64/mingw/release/ -llibopencv_world4100.dll
+# else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../opencv/opencv/MinGWbuild/install/x64/mingw/debug/ -llibopencv_world4100.dll
+# else:unix: LIBS += -L$$PWD/../../opencv/opencv/MinGWbuild/install/x64/mingw/ -llibopencv_world4100.dll
+
+# INCLUDEPATH += $$PWD/../../opencv/opencv/MinGWbuild/install/include
+# DEPENDPATH += $$PWD/../../opencv/opencv/MinGWbuild/install/include

@@ -173,7 +173,6 @@
 #define __GXX_ABI_VERSION 1016
 #define __FLT128_HAS_INFINITY__ 1
 #define __FLT_MIN_EXP__ (-125)
-#define __GCC_HAVE_DWARF2_CFI_ASM 1
 #define __x86_64 1
 #define __cpp_lambdas 200907L
 #define __INT_FAST64_TYPE__ long long int

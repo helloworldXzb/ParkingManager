@@ -41,12 +41,12 @@ public:
     QLabel *label_9;
     QLabel *label_10;
     QPushButton *pushButton_2;
-    QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
     QDateTimeEdit *dateTimeEdit;
     QDateTimeEdit *dateTimeEdit_2;
     QLabel *label_11;
     QComboBox *comboBox;
+    QPushButton *pushButton_02;
     QWidget *tab_6;
     QScrollArea *scrollArea_6;
     QWidget *scrollAreaWidgetContents_6;
@@ -165,10 +165,6 @@ public:
         pushButton_2 = new QPushButton(scrollAreaWidgetContents_5);
         pushButton_2->setObjectName("pushButton_2");
         pushButton_2->setGeometry(QRect(400, 430, 101, 41));
-        lineEdit = new QLineEdit(scrollAreaWidgetContents_5);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setGeometry(QRect(440, 90, 191, 21));
-        lineEdit->setMaxLength(20);
         lineEdit_2 = new QLineEdit(scrollAreaWidgetContents_5);
         lineEdit_2->setObjectName("lineEdit_2");
         lineEdit_2->setGeometry(QRect(440, 170, 191, 21));
@@ -184,7 +180,10 @@ public:
         label_11->setGeometry(QRect(320, 30, 311, 20));
         comboBox = new QComboBox(scrollAreaWidgetContents_5);
         comboBox->setObjectName("comboBox");
-        comboBox->setGeometry(QRect(640, 90, 191, 27));
+        comboBox->setGeometry(QRect(440, 90, 191, 27));
+        pushButton_02 = new QPushButton(scrollAreaWidgetContents_5);
+        pushButton_02->setObjectName("pushButton_02");
+        pushButton_02->setGeometry(QRect(640, 90, 101, 31));
         scrollArea_5->setWidget(scrollAreaWidgetContents_5);
         tabWidget->addTab(tab_2, QString());
         tab_6 = new QWidget();
@@ -378,7 +377,7 @@ public:
 
         retranslateUi(userwindow);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(userwindow);
@@ -400,7 +399,8 @@ public:
         label_9->setText(QCoreApplication::translate("userwindow", "<html><head/><body><p>\350\257\267\350\276\223\345\205\245\346\202\250\346\203\263\350\246\201\351\242\204\347\272\246\347\232\204\345\274\200\345\247\213\346\227\266\351\227\264</p></body></html>", nullptr));
         label_10->setText(QCoreApplication::translate("userwindow", "<html><head/><body><p>\350\257\267\350\276\223\345\205\245\346\202\250\346\203\263\350\246\201\351\242\204\347\272\246\347\232\204\347\273\223\346\235\237\346\227\266\351\227\264</p></body></html>", nullptr));
         pushButton_2->setText(QCoreApplication::translate("userwindow", "\347\241\256\350\256\244", nullptr));
-        label_11->setText(QCoreApplication::translate("userwindow", "TextLabel", nullptr));
+        label_11->setText(QCoreApplication::translate("userwindow", "\357\274\210\346\227\266\351\227\264\346\230\276\347\244\272\346\241\206\357\274\211", nullptr));
+        pushButton_02->setText(QCoreApplication::translate("userwindow", "\346\237\245\350\257\242\345\201\234\350\275\246\345\234\272", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("userwindow", "\351\242\204\347\272\246", nullptr));
         label_28->setText(QCoreApplication::translate("userwindow", "<html><head/><body><p>\346\202\250\345\267\262\350\266\205\346\227\266</p></body></html>", nullptr));
         label_29->setText(QCoreApplication::translate("userwindow", "<html><head/><body><p>\345\260\217\346\227\266\357\274\210\346\234\252\346\273\2411\345\260\217\346\227\266\346\214\211\344\270\200\345\260\217\346\227\266\350\256\241\347\256\227\357\274\211</p></body></html>", nullptr));

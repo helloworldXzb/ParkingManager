@@ -1,6 +1,7 @@
 debug/qrc_image.o
 debug/main.o
 debug/mainwindow.o
+debug/parkingsettings.o
 debug/registered.o
 debug/userwindow.o
 debug/edit_info.o
@@ -9,6 +10,7 @@ debug/topup.o
 debug/update_password.o
 debug/parkingwindow.o
 debug/moc_mainwindow.o
+debug/moc_parkingsettings.o
 debug/moc_registered.o
 debug/moc_userwindow.o
 debug/moc_edit_info.o
