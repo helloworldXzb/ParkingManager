@@ -46,12 +46,6 @@ userwindow::userwindow(QWidget *parent) :
     palette.setBrush(QPalette::Window, QBrush(pixmap));
     this->setPalette(palette);
 
-    QTabWidget *tabWidget=new QTabWidget(this); //tabWidget
-    QWidget * widget=new QWidget(this); //待放置到tabWidget中的控件
-    QHBoxLayout *layout=new QHBoxLayout; //包裹控件的布局
-    layout->setContentsMargins(0,0,0,0);
-    layout->addWidget(widget);
-    tabWidget->setPalette(palette);
 }
 
 

@@ -46,6 +46,7 @@ private:
     Ui::parkingsettings *ui;
     QGridLayout *pLayout;
 
+
 };
 
 #endif // parkingsettings_H

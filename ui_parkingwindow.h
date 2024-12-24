@@ -36,6 +36,7 @@ public:
     QLabel *label_7;
     QPushButton *pushButton;
     QPushButton *scanButton;
+    QPushButton *pushButton_2;
 
     void setupUi(QWidget *parkingwindow)
     {
@@ -105,6 +106,9 @@ public:
         scanButton = new QPushButton(parkingwindow);
         scanButton->setObjectName("scanButton");
         scanButton->setGeometry(QRect(170, 550, 111, 28));
+        pushButton_2 = new QPushButton(parkingwindow);
+        pushButton_2->setObjectName("pushButton_2");
+        pushButton_2->setGeometry(QRect(490, 550, 111, 28));
 
         retranslateUi(parkingwindow);
 
@@ -123,6 +127,7 @@ public:
         label_7->setText(QCoreApplication::translate("parkingwindow", "\347\273\223\346\235\237\346\227\266\351\227\264", nullptr));
         pushButton->setText(QCoreApplication::translate("parkingwindow", "\350\260\203\346\225\264\350\275\246\344\275\215", nullptr));
         scanButton->setText(QCoreApplication::translate("parkingwindow", "\346\211\253\346\217\217\350\275\246\347\211\214", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("parkingwindow", "\347\224\250\346\210\267\344\277\241\346\201\257", nullptr));
     } // retranslateUi
 
 };

@@ -22,7 +22,6 @@
 #include <QLayoutItem>
 #include <QTimer>
 #include <qdatetime.h>
-
 #include <QComboBox>
 
 namespace Ui {

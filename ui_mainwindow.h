@@ -55,14 +55,14 @@ public:
         centralWidget->setObjectName("centralWidget");
         label = new QLabel(centralWidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(350, 70, 281, 61));
+        label->setGeometry(QRect(320, 70, 321, 61));
         QFont font;
         font.setFamilies({QString::fromUtf8("\351\273\221\344\275\223")});
         font.setPointSize(24);
         label->setFont(font);
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName("label_3");
-        label_3->setGeometry(QRect(380, 150, 221, 16));
+        label_3->setGeometry(QRect(380, 150, 211, 16));
         QFont font1;
         font1.setFamilies({QString::fromUtf8("\346\245\267\344\275\223")});
         font1.setPointSize(12);
@@ -126,8 +126,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\345\201\234\350\275\246\345\234\272\347\256\241\347\220\206\347\263\273\347\273\237", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "\345\201\234\350\275\246\345\234\272\347\256\241\347\220\206\347\263\273\347\273\237", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "\346\224\271\345\217\230\347\224\237\346\264\273\357\274\214\350\256\251\345\201\234\350\275\246\346\233\264\344\276\277\346\215\267", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "\346\231\272\350\203\275\345\201\234\350\275\246\347\256\241\347\220\206\347\263\273\347\273\237", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "\346\224\271\345\217\230\347\224\237\346\264\273,\350\256\251\345\201\234\350\275\246\346\233\264\344\276\277\346\215\267", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\345\220\215", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "\345\257\206  \347\240\201", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "\350\257\267\351\200\211\346\213\251\346\202\250\347\232\204\350\272\253\344\273\275", nullptr));

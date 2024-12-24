@@ -40,6 +40,11 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QIntValidator>
+//
+#include <QTableWidget>
+#include <QTableWidgetItem> // 如果需要使用表格单元项
+#include <QHeaderView>
+
 namespace Ui {
 class parkingwindow;
 }
@@ -67,16 +72,19 @@ private slots:
     void on_pushButton_clicked();
     void on_scanButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::parkingwindow *ui;
     QGridLayout *pLayout;
+    QTableWidget *userTable;  // 添加成员变量
     // 功能函数
     void getAccessToken(std::function<void(const QString &)> callback); // 获取 Access Token
     void recognizeLicensePlate(const QString &imageBase64, const QString &accessToken); // 调用车牌识别接口
 
     // 替换为你的百度云 API Key 和 Secret Key
-    const QString CLIENT_ID = "KiFHYP52lFCK34hGfFnqa84s";
-    const QString CLIENT_SECRET = "NU8m5Wwpe5oxmaUir5GHrmbPBCUcChwA";
+    const QString CLIENT_ID = "你的百度云API Key";
+    const QString CLIENT_SECRET = "你的百度云Secret Key";
 
 
 

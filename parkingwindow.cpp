@@ -1,6 +1,6 @@
 #include "parkingwindow.h"
 #include "ui_parkingwindow.h"
-#include  <iostream>
+
 
 
 
@@ -336,4 +336,156 @@ std::optional<std::pair<int, QString>> parkingwindow::getNonRegisteredCarInfo(co
 //     // 发送信号请求数据库操作
 //     emit requestInsertNonRegisteredCar(carId, parkingName, carType, carPos, startTime);
 // }
+
+
+// void parkingwindow::on_pushButton_2_clicked() {
+//     QDialog *userDialog = new QDialog(this);
+//     userDialog->setWindowTitle("用户信息");
+//     userDialog->resize(600, 400);
+
+//     QTableWidget *userTable = new QTableWidget(userDialog);
+//     userTable->setColumnCount(4); // 设置列数
+//     userTable->setHorizontalHeaderLabels(QStringList() << "ID" << "姓名" << "电话" << "用户类型");
+//     userTable->horizontalHeader()->setStretchLastSection(true); // 拉伸最后一列
+//     userTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); // 自适应列宽
+//     userTable->verticalHeader()->setVisible(false); // 隐藏垂直表头
+//     userTable->resize(userDialog->size());
+//     userTable->setEditTriggers(QAbstractItemView::NoEditTriggers); // 禁止编辑
+
+//     // 设置表头文字居中对齐
+//     QHeaderView *header = userTable->horizontalHeader();
+//     header->setDefaultAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+//     // 设置表头字体加粗
+//     QFont headerFont = userTable->font();
+//     headerFont.setBold(true); // 加粗
+//     userTable->horizontalHeader()->setFont(headerFont);
+
+//     // 查询数据库并填充表格
+//     QSqlQuery query;
+//     QString userQuery = "SELECT id, name, tel, type FROM userinfo";
+//     if (!query.exec(userQuery)) {
+//         QMessageBox::warning(this, "错误", "查询用户信息失败：" + query.lastError().text());
+//         return;
+//     }
+
+//     int row = 0;
+//     while (query.next()) {
+//         userTable->insertRow(row); // 添加新行
+//         for (int col = 0; col < 4; ++col) {
+//             QTableWidgetItem *item = new QTableWidgetItem(query.value(col).toString());
+//             item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); // 水平居中 + 垂直居中
+//             userTable->setItem(row, col, item);
+//         }
+//         row++;
+//     }
+
+//     userDialog->exec(); // 显示弹出窗口
+// }
+
+void parkingwindow::on_pushButton_2_clicked() {
+    QDialog *userDialog = new QDialog(this);
+    userDialog->setWindowTitle("用户信息");
+    userDialog->resize(600, 400);
+
+    // 创建一个垂直布局管理器，用于管理控件
+    QVBoxLayout *layout = new QVBoxLayout(userDialog);
+
+    // 创建一个水平布局管理器，用于放置查询条件和按钮
+    QHBoxLayout *hLayout = new QHBoxLayout();
+
+    // 创建一个QLineEdit用于输入查询条件
+    QLineEdit *searchEdit = new QLineEdit(userDialog);
+    searchEdit->setPlaceholderText("请输入ID或姓名进行查询");
+    hLayout->addWidget(searchEdit, 1); // 让searchEdit占用一半空间
+
+    // 创建查询按钮
+    QPushButton *searchButton = new QPushButton("查询", userDialog);
+    hLayout->addWidget(searchButton, 1); // 让searchButton占用另一半空间
+
+    // 创建显示全部按钮
+    QPushButton *showAllButton = new QPushButton("显示全部", userDialog);
+    hLayout->addWidget(showAllButton, 1); // 让showAllButton占用另一半空间
+
+    // 将水平布局添加到主布局中
+    layout->addLayout(hLayout);
+
+    // 创建QTableWidget用于显示用户信息
+    QTableWidget *userTable = new QTableWidget(userDialog);
+    userTable->setColumnCount(4); // 设置列数
+    userTable->setHorizontalHeaderLabels(QStringList() << "ID" << "姓名" << "电话" << "用户类型");
+    userTable->horizontalHeader()->setStretchLastSection(true); // 拉伸最后一列
+    userTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); // 自适应列宽
+    userTable->verticalHeader()->setVisible(false); // 隐藏垂直表头
+    userTable->setEditTriggers(QAbstractItemView::NoEditTriggers); // 禁止编辑
+
+    // 设置表头文字居中对齐
+    QHeaderView *header = userTable->horizontalHeader();
+    header->setDefaultAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+    // 设置表头字体加粗
+    QFont headerFont = userTable->font();
+    headerFont.setBold(true); // 加粗
+    userTable->horizontalHeader()->setFont(headerFont);
+
+    // 将表格控件添加到布局中
+    layout->addWidget(userTable);
+
+    // 查询并更新表格内容的函数
+    auto updateTable = [this, userTable, searchEdit](const QString &searchText = "") {
+        QSqlQuery query;
+        QString userQuery;
+
+        // 如果有搜索条件，则进行模糊查询，否则显示全部
+        if (searchText.isEmpty()) {
+            userQuery = "SELECT id, name, tel, type FROM userinfo"; // 查询所有数据
+        } else {
+            userQuery = "SELECT id, name, tel, type FROM userinfo WHERE id LIKE '%" + searchText + "%' OR name LIKE '%" + searchText + "%'"; // 根据ID或姓名查询
+        }
+
+        if (!query.exec(userQuery)) { // 执行查询
+            QMessageBox::warning(this, "错误", "查询用户信息失败：" + query.lastError().text());
+            return;
+        }
+
+        // 清空之前的表格数据
+        userTable->setRowCount(0);
+
+        int row = 0;
+        while (query.next()) { // 遍历查询结果并插入到表格中
+            userTable->insertRow(row); // 添加新行
+            for (int col = 0; col < 4; ++col) {
+                QTableWidgetItem *item = new QTableWidgetItem(query.value(col).toString());
+                item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); // 水平居中 + 垂直居中
+                userTable->setItem(row, col, item);
+            }
+            row++;
+        }
+    };
+
+    // 点击查询按钮时根据输入内容更新表格
+    connect(searchButton, &QPushButton::clicked, [this, searchEdit, updateTable]() {
+        QString searchText = searchEdit->text(); // 获取输入框中的查询条件
+        updateTable(searchText); // 更新表格数据
+    });
+
+    // 点击显示全部按钮时显示所有用户信息
+    connect(showAllButton, &QPushButton::clicked, [this, updateTable]() {
+        updateTable(); // 显示所有数据
+    });
+
+    // 默认显示所有数据
+    updateTable();  // 调用此函数在窗口打开时加载所有用户数据
+
+    userDialog->exec(); // 显示弹出窗口
+}
+
+
+
+
+
+
+
+
+
 

@@ -154,7 +154,7 @@ void MainWindow::connectmysql() {
     }
 
     // 连接成功，提示用户
-    QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("数据库成功连接！"), QMessageBox::Ok);
+    //QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("数据库成功连接！"), QMessageBox::Ok);
 
 }
 
@@ -505,7 +505,7 @@ void MainWindow::updatetimeout() {
         finishStatus = query.value(0).toString(); // 获取 finish 状态
         latestOrderNum = query.value(1).toInt();  // 获取最新的 ordernum
     } else {
-        qDebug() << "查询用户完成状态失败：" << query.lastError().text();
+        //qDebug() << "查询用户完成状态失败：" << query.lastError().text();
         return;
     }
 
@@ -783,7 +783,7 @@ void MainWindow::sqlparkinglot() {
         return;
     }
 
-    qDebug() << "停车场数据更新成功:" << parkingname;
+    //qDebug() << "停车场数据更新成功:" << parkingname;
 
     // 重新赋值以确保显示最新数据
     posnum = actualTotal;
@@ -959,7 +959,7 @@ void MainWindow::sqldelparksetspace(int carpos){
         qDebug() << "删除停车场" << parkingname << "中车位号为" << carpos << "的记录失败：" << query.lastError().text();
     }
 
-    qDebug() << "准备执行更新加载 parkset 的数据" ;
+
     sqlparkingsettings_load(); // 更新加载 parkset 的数据
 }
 
