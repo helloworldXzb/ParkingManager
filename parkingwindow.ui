@@ -148,15 +148,16 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>40</y>
+     <y>50</y>
      <width>72</width>
      <height>21</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>黑体</family>
+     <family>宋体</family>
      <pointsize>10</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
@@ -166,35 +167,37 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>40</y>
-     <width>72</width>
+     <x>310</x>
+     <y>50</y>
+     <width>91</width>
      <height>21</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>黑体</family>
+     <family>宋体</family>
      <pointsize>10</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>用户名</string>
+    <string>用户/车牌</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>40</y>
-     <width>72</width>
+     <x>530</x>
+     <y>50</y>
+     <width>81</width>
      <height>21</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>黑体</family>
+     <family>宋体</family>
      <pointsize>10</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
@@ -205,15 +208,16 @@
    <property name="geometry">
     <rect>
      <x>740</x>
-     <y>40</y>
-     <width>72</width>
+     <y>50</y>
+     <width>81</width>
      <height>21</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>黑体</family>
+     <family>宋体</family>
      <pointsize>10</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">

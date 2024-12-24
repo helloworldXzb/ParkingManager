@@ -45,6 +45,13 @@ userwindow::userwindow(QWidget *parent) :
     QPalette palette(this->palette());
     palette.setBrush(QPalette::Window, QBrush(pixmap));
     this->setPalette(palette);
+
+    QTabWidget *tabWidget=new QTabWidget(this); //tabWidget
+    QWidget * widget=new QWidget(this); //待放置到tabWidget中的控件
+    QHBoxLayout *layout=new QHBoxLayout; //包裹控件的布局
+    layout->setContentsMargins(0,0,0,0);
+    layout->addWidget(widget);
+    tabWidget->setPalette(palette);
 }
 
 
@@ -60,6 +67,7 @@ void userwindow::timerUpdate(){
     QDateTime time = QDateTime::currentDateTime();
     ui->dateTimeEdit->setMinimumDateTime(time);
     ui->dateTimeEdit_2->setMinimumDateTime(time);
+
     QString str = time.toString("yyyy-MM-dd hh:mm:ss dddd");
     ui->label_11->setText(str);
 }
@@ -186,32 +194,15 @@ void userwindow::emit_main_monthmember(){
 }
 
 // 设置缴费信息（封装成函数，是为了方便各端修改超时缴费这种关键的信息）
-void userwindow::setpayment(int duration, int money){
+void userwindow::usersetpayment(QString reservationStatus,int duration, int money){
+    ui->label_12->setText(reservationStatus);
     ui->lineEdit_14->setText(QString::number(duration));
     ui->lineEdit_15->setText(QString::number(money));
 }
 //定位取车并缴费功能按钮函数
 void userwindow::emit_main_payment() {
-    // 获取用户界面中 lineEdit_14 的文本内容，存储到 tmp 变量
-    QString tmp = ui->lineEdit_14->text();
-
-    // 获取用户界面中 lineEdit_15 的文本内容，存储到 tmp_2 变量
-    QString tmp_2 = ui->lineEdit_15->text();
-
-    // 定义 ok 变量，用于判断字符串转换为整数是否成功
-    bool ok;
-
-    // 将 tmp 转换为整数，基数为 10，转换后的结果存储到 duration 变量
-    int duration = tmp.toInt(&ok, 10);
-
-    // 将 tmp_2 转换为整数，基数为 10，转换后的结果存储到 money 变量
-    int money = tmp_2.toInt(&ok, 10);
-
     // 触发信号 send_main_payment，发送 duration 和 money 参数
-    emit(send_main_payment(duration, money));
-
-    // 设置缴费信息为0
-    setpayment(0, 0);
+    emit(send_main_payment());
 }
 
 

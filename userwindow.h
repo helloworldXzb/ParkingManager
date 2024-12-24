@@ -55,7 +55,7 @@ public:
     void reservation();
 
     //设置支付成员的两个信息的显示（超时，支付金额）
-    void setpayment(int, int);
+    void usersetpayment(QString reservationStatus,int duration, int money);
 
     void recordprint(QString str[][2], int num[][4], QDateTime time[][2], int len);
     // 从数据库加载停车场名称
@@ -69,7 +69,7 @@ signals:
     void send_main_yearmember();
     void send_main_monthmember();
     void send_main_reservation(QString, int, QDateTime, QDateTime);
-    void send_main_payment(int, int);
+    void send_main_payment();
     void send_main_consumption();
 
 private:

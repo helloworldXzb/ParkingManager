@@ -22,13 +22,12 @@ parkingwindow::parkingwindow(QWidget *parent) :
     pLayout->setSpacing(20);          // 设置控件间距
     pLayout->setAlignment(Qt::AlignTop); // 设置布局靠顶部对齐
 
-    connect(ui->pushButton, &QPushButton::clicked, this, &parkingwindow::on_pushButton_clicked);
-    connect(ui->scanButton, &QPushButton::clicked, this, &parkingwindow::on_scanButton_clicked);
+
 }
 
 // 打印函数：展示停车信息到界面的 scrollArea 中
-void parkingwindow::print(QString *parkingstr, int *parkingnum, QDateTime (*parkingtim)[2], int len){
-    //清空布局
+void parkingwindow::print(QString *parkingstr, int *parkingnum, QDateTime (*parkingtim)[2], QString *recordSource, int len) {
+    // 清空布局
     QLayoutItem *child;
     while ((child = pLayout->takeAt(0)) != nullptr) {
         if (child->widget()) {
@@ -37,10 +36,7 @@ void parkingwindow::print(QString *parkingstr, int *parkingnum, QDateTime (*park
         delete child;
     }
 
-    for(int i = 0; i < len; ++i)
-    {
-
-
+    for (int i = 0; i < len; ++i) {
         // 创建 QLineEdit 控件用于显示停车信息（如停车编号、停车场、开始时间和结束时间）
         QLineEdit *lineEdit = new QLineEdit();      // 显示停车编号
         QLineEdit *lineEdit_2 = new QLineEdit();    // 显示停车场名称
@@ -60,9 +56,9 @@ void parkingwindow::print(QString *parkingstr, int *parkingnum, QDateTime (*park
 
         // 填充每个 QLineEdit 的文本内容
         lineEdit->setText(QString::number(parkingnum[i])); // 停车位编号
-        lineEdit_2->setText(parkingstr[i]);               //用户名
+        lineEdit_2->setText(parkingstr[i]);               // 用户名或车牌号
         QString statim = parkingtim[i][0].toString("yyyy-MM-dd hh:mm:ss"); // 开始时间
-        QString endtim = parkingtim[i][1].toString("yyyy-MM-dd hh:mm:ss"); // 结束时间
+        QString endtim = parkingtim[i][1].isNull() ? "无" : parkingtim[i][1].toString("yyyy-MM-dd hh:mm:ss"); // 结束时间，空值显示为 "无"
         lineEdit_3->setText(statim);
         lineEdit_4->setText(endtim);
 
@@ -72,24 +68,20 @@ void parkingwindow::print(QString *parkingstr, int *parkingnum, QDateTime (*park
         pLayout->addWidget(lineEdit_3, i, 2, 1, 1);
         pLayout->addWidget(lineEdit_4, i, 3, 1, 1);
 
-        //以下新增--------------------------------------------------------------------------动态创建“完结订单”按钮并添加到布局中
+        // 动态创建“完结订单”按钮并添加到布局中
         QPushButton *finishButton = new QPushButton("完结订单");
         pLayout->addWidget(finishButton, i, 4, 1, 1);  // 将按钮添加在停车信息右侧
 
         // 点击按钮时读取起始和结束时间并发出 finishOrder 信号
         connect(finishButton, &QPushButton::clicked, this, [=]() {
-            // 从 lineEdit_3 和 lineEdit_4 中读取起始和结束时间
-            QDateTime startTime = QDateTime::fromString(lineEdit_3->text(), "yyyy-MM-dd hh:mm:ss");
-            QDateTime endTime = QDateTime::fromString(lineEdit_4->text(), "yyyy-MM-dd hh:mm:ss");
-
-            int duration = startTime.secsTo(endTime) / 3600; // 假设时长按小时计算
-            int money = duration * 10;                       // 假设每小时费用为 10
-            emit finishOrder(parkingstr[i], duration, money);   // 发送信号传递用户ID、时长和费用
+            emit finishOrder(parkingstr[i], recordSource[i]);   // 发送信号传递用户/车牌ID和记录来源（book nuserbook）
         });
-
     }
+
     ui->scrollArea->widget()->setLayout(pLayout); // 再次将布局应用到 scrollArea 中
 }
+
+
 
 // 设置停车场信息（车位总数、空闲数和收入），并显示在界面的指定位置
 void parkingwindow::setline(int posnum, int emptynum, int income){
@@ -181,13 +173,13 @@ void parkingwindow::recognizeLicensePlate(const QString &imageBase64, const QStr
 
     QByteArray postData;
     postData.append("image=").append(QUrl::toPercentEncoding(imageBase64)); // 确保 URL 编码
-    qDebug() << "请求 POST 数据：" << postData;
+    //qDebug() << "请求 POST 数据：" << postData;
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
         if (reply->error() == QNetworkReply::NoError) {
             QByteArray responseData = reply->readAll();
-            qDebug() << "响应数据：" << responseData; // 打印完整响应
+            //qDebug() << "响应数据：" << responseData; // 打印完整响应
 
             QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
             QJsonObject jsonObject = jsonResponse.object();
@@ -195,7 +187,9 @@ void parkingwindow::recognizeLicensePlate(const QString &imageBase64, const QStr
             if (jsonObject.contains("words_result")) {
                 QString plateNumber = jsonObject["words_result"].toObject()["number"].toString();
                 if (!plateNumber.isEmpty()) {
-                    QMessageBox::information(this, "车牌识别结果", "识别到的车牌号: " + plateNumber);
+                     qDebug() << "识别到车牌号：" << plateNumber;
+                    //QMessageBox::information(this, "车牌识别结果", "识别到的车牌号: " + plateNumber);
+                     emit requestCheckCarId(plateNumber);
                 } else {
                     QMessageBox::warning(this, "警告", "未识别到车牌，请检查图片！");
                 }
@@ -216,7 +210,9 @@ void parkingwindow::recognizeLicensePlate(const QString &imageBase64, const QStr
 
 // 按钮点击事件
 void parkingwindow::on_scanButton_clicked() {
+    // 打开文件对话框，选择车牌图片
     QString filePath = QFileDialog::getOpenFileName(this, "选择车牌图片", "", "Images (*.png *.jpg *.jpeg)");
+    // 如果未选择文件，直接返回，避免重复弹窗
     if (filePath.isEmpty()) {
         QMessageBox::warning(this, "警告", "未选择图片！");
         return;
@@ -231,7 +227,113 @@ void parkingwindow::on_scanButton_clicked() {
     getAccessToken([this, imageBase64](const QString &accessToken) {
         recognizeLicensePlate(imageBase64, accessToken);
     });
+
 }
+std::optional<std::pair<int, QString>> parkingwindow::getNonRegisteredCarInfo(const QString &carId) {
+    // 创建对话框
+    QDialog dialog(this);
+    dialog.setWindowTitle(QString("车辆入库: %1").arg(carId));
+    dialog.setModal(true);
+    dialog.resize(300, 200);
 
+    // 创建布局
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
 
+    // 提示标签
+    QLabel *label = new QLabel(QString("车牌号: %1 正在入库").arg(carId), &dialog);
+    layout->addWidget(label);
+
+    // 车位号输入框
+    QLabel *carPosLabel = new QLabel("车位号:", &dialog);
+    QLineEdit *carPosInput = new QLineEdit(&dialog);
+    carPosInput->setValidator(new QIntValidator(1, 999, &dialog)); // 限制为整数输入
+    QHBoxLayout *carPosLayout = new QHBoxLayout();
+    carPosLayout->addWidget(carPosLabel);
+    carPosLayout->addWidget(carPosInput);
+    layout->addLayout(carPosLayout);
+
+    // 类型下拉框
+    QLabel *carTypeLabel = new QLabel("车型:", &dialog);
+    QComboBox *carTypeComboBox = new QComboBox(&dialog);
+    carTypeComboBox->addItems({"小型车", "中型车", "大型车"});
+    QHBoxLayout *carTypeLayout = new QHBoxLayout();
+    carTypeLayout->addWidget(carTypeLabel);
+    carTypeLayout->addWidget(carTypeComboBox);
+    layout->addLayout(carTypeLayout);
+
+    // 确定和取消按钮
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    QPushButton *confirmButton = new QPushButton("确定", &dialog);
+    QPushButton *cancelButton = new QPushButton("取消", &dialog);
+    buttonLayout->addWidget(confirmButton);
+    buttonLayout->addWidget(cancelButton);
+    layout->addLayout(buttonLayout);
+
+    // 连接按钮信号
+    connect(confirmButton, &QPushButton::clicked, [&]() {
+        if (carPosInput->text().isEmpty()) {
+            QMessageBox::warning(&dialog, "警告", "请输入车位号！");
+        } else {
+            dialog.accept(); // 提交数据并关闭对话框
+        }
+    });
+
+    connect(cancelButton, &QPushButton::clicked, [&]() {
+        dialog.reject(); // 取消操作并关闭对话框
+    });
+
+    // 显示对话框并等待结果
+    if (dialog.exec() == QDialog::Accepted) {
+        int carPos = carPosInput->text().toInt();
+        QString carType = carTypeComboBox->currentText();
+        return std::make_optional(std::make_pair(carPos, carType)); // 返回填写的值
+    }
+
+    QMessageBox::information(this, "取消", "用户取消入库操作！");
+    return std::nullopt; // 返回空值
+}
+// //它是一个辅助函数，用于弹出对话框，让用户填写非注册用户的车位信息。
+// bool getNonRegisteredCarInfo(QString &carType, int &carPos) {
+//     bool ok;
+
+//     // 获取车辆类型
+//     carType = QInputDialog::getText(nullptr, "输入车辆类型",
+//                                     "请输入车辆类型（如小型车、中型车、大型车）：",
+//                                     QLineEdit::Normal, QString(), &ok);
+//     if (!ok || carType.isEmpty()) {
+//         QMessageBox::warning(nullptr, "警告", "未填写车辆类型或取消操作！");
+//         return false;
+//     }
+
+//     // 获取车位号
+//     carPos = QInputDialog::getInt(nullptr, "输入车位号",
+//                                   "请输入车位号：",
+//                                   1, 1, 1000, 1, &ok);
+//     if (!ok) {
+//         QMessageBox::warning(nullptr, "警告", "未填写车位号或取消操作！");
+//         return false;
+//     }
+
+//     return true;
+// }
+
+// //非注册用户操作函数
+// void parkingwindow::processNonRegisteredCar(const QString &carId, const QString &parkingName) {
+//     // 弹出对话框获取车辆类型和车位号
+//     QString carType;
+//     int carPos;
+
+//     bool ok = getNonRegisteredCarInfo(carType, carPos);
+//     if (!ok) {
+//         QMessageBox::warning(this, "操作取消", "非注册用户停车流程已取消！");
+
+//         return;
+//     }
+
+//     // 当前时间作为停车时间
+//     QDateTime startTime = QDateTime::currentDateTime();
+
+//     // 发送信号请求数据库操作
+//     emit requestInsertNonRegisteredCar(carId, parkingName, carType, carPos, startTime);
+// }
 

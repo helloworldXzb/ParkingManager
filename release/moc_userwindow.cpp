@@ -124,8 +124,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSuserwindowENDCLASS[] = {
        7,    0,   93,    2, 0x06,   13 /* Public */,
        8,    0,   94,    2, 0x06,   14 /* Public */,
        9,    4,   95,    2, 0x06,   15 /* Public */,
-      10,    2,  104,    2, 0x06,   20 /* Public */,
-      11,    0,  109,    2, 0x06,   23 /* Public */,
+      10,    0,  104,    2, 0x06,   20 /* Public */,
+      11,    0,  105,    2, 0x06,   21 /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -136,7 +136,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSuserwindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString, QMetaType::Int, QMetaType::QDateTime, QMetaType::QDateTime,    2,    2,    2,    2,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    2,    2,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -180,8 +180,6 @@ Q_CONSTINIT const QMetaObject userwindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QDateTime, std::false_type>,
         // method 'send_main_payment'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
         // method 'send_main_consumption'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
@@ -202,7 +200,7 @@ void userwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->send_main_yearmember(); break;
         case 6: _t->send_main_monthmember(); break;
         case 7: _t->send_main_reservation((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QDateTime>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<QDateTime>>(_a[4]))); break;
-        case 8: _t->send_main_payment((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
+        case 8: _t->send_main_payment(); break;
         case 9: _t->send_main_consumption(); break;
         default: ;
         }
@@ -265,7 +263,7 @@ void userwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             }
         }
         {
-            using _t = void (userwindow::*)(int , int );
+            using _t = void (userwindow::*)();
             if (_t _q_method = &userwindow::send_main_payment; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 8;
                 return;
@@ -364,10 +362,9 @@ void userwindow::send_main_reservation(QString _t1, int _t2, QDateTime _t3, QDat
 }
 
 // SIGNAL 8
-void userwindow::send_main_payment(int _t1, int _t2)
+void userwindow::send_main_payment()
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
-    QMetaObject::activate(this, &staticMetaObject, 8, _a);
+    QMetaObject::activate(this, &staticMetaObject, 8, nullptr);
 }
 
 // SIGNAL 9

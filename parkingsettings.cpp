@@ -13,6 +13,11 @@ parkingsettings::parkingsettings(QWidget *parent) :
     pLayout->setSpacing(20); // 设置控件间距
     pLayout->setAlignment(Qt::AlignTop);// 设置布局靠顶部对齐
     // 初始化车型下拉框数据
+    // 设置背景图片，并调整为与窗口大小匹配
+    QPixmap pixmap = QPixmap(":/ground_4.jpg").scaled(this->size());
+    QPalette palette(this->palette());
+    palette.setBrush(QPalette::Window, QBrush(pixmap));
+    this->setPalette(palette);
     ui->comboBox->addItems({"小型车", "中型车", "大型车"});
 }
 
@@ -49,13 +54,13 @@ void parkingsettings::setprint(QString parkingname,int *carpos, QString *carpost
         lineEdit_2->setAlignment(Qt::AlignHCenter);
         lineEdit_3->setAlignment(Qt::AlignHCenter);
 
-        lineEdit->setFixedHeight(30);  // 设置控件固定高度
-        lineEdit_2->setFixedHeight(30);
-        lineEdit_3->setFixedHeight(30);
+        // lineEdit->setFixedHeight(30);  // 设置控件固定高度
+        // lineEdit_2->setFixedHeight(30);
+        // lineEdit_3->setFixedHeight(30);
 
-        lineEdit->setContentsMargins(0, 0, 0, 0);  // 去掉控件外边距
-        lineEdit_2->setContentsMargins(0, 0, 0, 0);
-        lineEdit_3->setContentsMargins(0, 0, 0, 0);
+        // lineEdit->setContentsMargins(0, 0, 0, 0);  // 去掉控件外边距
+        // lineEdit_2->setContentsMargins(0, 0, 0, 0);
+        // lineEdit_3->setContentsMargins(0, 0, 0, 0);
 
         pLayout->addWidget(lineEdit, i, 0, 1, 1);   // 第一列：车位编号
         pLayout->addWidget(lineEdit_2, i, 1, 1, 1); // 第二列：车位类型

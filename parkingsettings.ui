@@ -80,7 +80,7 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>130</x>
      <y>50</y>
      <width>69</width>
      <height>19</height>
@@ -88,10 +88,10 @@
    </property>
    <property name="font">
     <font>
-     <family>黑体</family>
+     <family>宋体</family>
      <pointsize>10</pointsize>
      <italic>false</italic>
-     <bold>false</bold>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
@@ -101,17 +101,18 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>410</x>
      <y>50</y>
-     <width>69</width>
+     <width>71</width>
      <height>19</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>黑体</family>
+     <family>宋体</family>
      <pointsize>10</pointsize>
-     <bold>false</bold>
+     <italic>false</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
@@ -121,7 +122,7 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>710</x>
      <y>50</y>
      <width>69</width>
      <height>19</height>
@@ -129,9 +130,10 @@
    </property>
    <property name="font">
     <font>
-     <family>黑体</family>
+     <family>宋体</family>
      <pointsize>10</pointsize>
-     <bold>false</bold>
+     <italic>false</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
